@@ -1,0 +1,32 @@
+.App {
+  text-align: center;
+}
+
+h1 {
+  font-size: 40px;
+  font-weight: bold;
+  color: #ccc;
+}
+.form {
+  background-color: #282c34;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+ padding: 10px 0;
+
+}
+.form input {
+  color: #ccc;
+  border: none;
+  border-radius: 3px;
+  padding: 10px;
+  margin: 10px 0;
+  width: 80%;
+}
+.form label {
+  color: #ccc;
+  font-size: 20px;
+  font-weight: bold;
+}
