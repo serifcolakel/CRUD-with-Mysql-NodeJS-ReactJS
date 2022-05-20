@@ -1,9 +1,19 @@
 import "./App.css";
+import "antd/dist/antd.min.css";
 import React, { useState } from "react";
 import axios from "axios";
-import UpdateEmploye from "./components/UpdateEmploye";
+import UpdateUser from "./components/UpdateUser";
+import CreateUser from "./components/CreateUser";
+import CustomTable from "./components/CustomTable";
+import { openNotification } from "./utils/notification";
+import { Button, Input } from "antd";
+const { Search } = Input;
+
 const initialValues = {
-  name: "Şerif",
+  fullName: "Şerif",
+  userName: "serif",
+  email: "serif@gmail.com",
+  password: "123456",
   age: "20",
   country: "Turkey",
   position: "Developer",
@@ -12,40 +22,40 @@ const initialValues = {
 
 function App() {
   const [data, setData] = useState(initialValues);
-  const [employees, setEmployees] = useState([]);
-  const [employee, setEmployee] = useState({});
+  const [users, setUsers] = useState([]);
+  const [user, setUser] = useState({});
   const [showImage, setShowImage] = useState(null);
   const [isEdit, setIsEdit] = useState(false);
+  const [isCreate, setIsCreate] = useState(false);
   function handleSubmit(e) {
     e.preventDefault();
     let newEmployee = {
       ...data,
       image: showImage,
     };
-    console.log(newEmployee);
-    axios
-      .post("http://localhost:5000/api/new-user", newEmployee)
-      .then((res) => {
-        getEmployees();
-      });
+    axios.post("http://localhost:5000/api/new-user", newEmployee).then(() => {
+      getUser();
+      setIsCreate(false);
+    });
   }
-  function getEmployees() {
-    axios.get("http://localhost:5000/api/employees").then((res) => {
-      setEmployees(res.data);
+
+  function getUser() {
+    axios.get("http://localhost:5000/api/user").then((res) => {
+      setUsers(res.data);
     });
   }
   // function getEmployee(id) {
-  //   axios.get(`http://localhost:5000/api/employee/${id}`).then((res) => {
+  //   axios.get(`http://localhost:5000/api/user/${id}`).then((res) => {
   //     console.log(res.data[0]);
   //   });
   // }
-  function deleteEmployees(id) {
-    axios.delete(`http://localhost:5000/api/employee/${id}`).then((res) => {
-      getEmployees();
+  function deleteUser(id) {
+    axios.delete(`http://localhost:5000/api/user/${id}`).then((res) => {
+      getUser();
     });
   }
-  function updateEmployee(employee) {
-    setEmployee(employee);
+  function updateUser(user) {
+    setUser(user);
     setIsEdit(true);
   }
   function uploadImage(e) {
@@ -55,83 +65,50 @@ function App() {
     e.target.files[0] &&
       axios.post(`http://localhost:5000/api/image`, formData).then((res) => {
         setShowImage(res.data.image);
+        openNotification("success", "Resim Başarıyla Yüklendi");
       });
   }
   React.useEffect(() => {
-    getEmployees();
+    getUser();
   }, [isEdit]);
 
   return (
     <div className="App">
-      <h1>Employee System</h1>
-      <form className="form" onSubmit={handleSubmit}>
-        {Object.keys(data).map((item, index) => (
-          <div className="form" key={index}>
-            <label htmlFor={item}>{item}</label>
-            <input
-              type="text"
-              value={data[item]}
-              id={item}
-              name={item}
-              onChange={(e) => setData({ ...data, [item]: e.target.value })}
-            />
-          </div>
-        ))}
-        <input
-          type="file"
-          style={{
-            marginLeft: "auto",
-            marginRight: "auto",
-            width: "10%",
-          }}
-          onChange={uploadImage}
-          multiple={false}
+      <div className="container">
+        <h5>Kullanıcı Listesi</h5>
+        <Search
+          placeholder="input search text"
+          onSearch={() => console.log("HERE")}
+          enterButton
         />
+        <Button type="primary" onClick={() => setIsCreate(true)}>
+          Create User
+        </Button>
+      </div>
+      {isCreate && (
+        <CreateUser
+          data={data}
+          isCreate={isCreate}
+          setIsCreate={setIsCreate}
+          handleSubmit={handleSubmit}
+          setData={setData}
+          uploadImage={uploadImage}
+        />
+      )}
 
-        <button type="submit">Submit</button>
-      </form>
-      {/* <button onClick={getEmployees}>Get Employees</button> */}
-      {employees.map((item, index) => (
-        <div
-          key={index}
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "center",
-            overflow: "scroll",
-            padding: "0 20px",
-            gap: "30px",
-          }}
-        >
-          <img
-            src={`http://localhost:5000/images/${item.image}`}
-            alt="server-logo"
-            style={{
-              borderRadius: "50%",
-              border: "1px solid black",
-            }}
-            width={50}
-            height={50}
-          />
-          <h3>{item.name}</h3>
-          <p>{item.age}</p>
-          <p>{item.country}</p>
-          <p>{item.position}</p>
-          <p>{item.salary}</p>
-          <button onClick={() => updateEmployee(item)}>Update Employee</button>
-          <button onClick={() => deleteEmployees(item.id)}>
-            Delete Employee
-          </button>
-        </div>
-      ))}
+      <CustomTable
+        users={users}
+        deleteUser={deleteUser}
+        updateUser={updateUser}
+      />
+
       {isEdit && (
-        <UpdateEmploye
-          employee={employee}
+        <UpdateUser
+          user={user}
           isEdit={isEdit}
           setIsEdit={setIsEdit}
-          setEmployee={setEmployee}
-          getEmployees={getEmployees}
+          setUser={setUser}
+          getUser={getUser}
         />
       )}
     </div>

@@ -1,37 +1,12 @@
 import axios from "axios";
 import React from "react";
+import { Modal } from "antd";
 import "../App.css";
-export default function UpdateEmploye({
-  employee,
-  isEdit,
-  setIsEdit,
-  setEmployee,
-}) {
-  const style = {
-    position: "absolute",
-    top: "0%",
-    left: "0%",
-    width: "100%",
-    height: "110vh",
-    background: "white",
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-  };
-  const [data, setData] = React.useState(employee);
-  const [image, setImage] = React.useState(employee.image);
-  function handleUpdate(e) {
-    e.preventDefault();
-    axios
-      .put(`http://localhost:5000/api/employee/${employee.id}`, data)
-      .then((res) => {
-        console.log(res);
-        setIsEdit(false);
-      });
-  }
+export default function UpdateUser({ user, isEdit, setIsEdit, setUser }) {
+  const [data, setData] = React.useState(user);
+  const [image, setImage] = React.useState(user.image);
+
   function uploadImage(e) {
-    //console.log(e.target.files[0]);
     const formData = new FormData();
     formData.append("image", e.target.files[0]);
     e.target.files[0] &&
@@ -39,10 +14,24 @@ export default function UpdateEmploye({
         setImage(res.data.image);
       });
   }
+  const handleOk = (e) => {
+    e.preventDefault();
+    axios.put(`http://localhost:5000/api/user/${user.id}`, data).then((res) => {
+      console.log(res);
+      setIsEdit(false);
+    });
+  };
+  const handleCancel = () => {
+    setIsEdit(false);
+  };
   return (
-    <div style={style}>
-      <h1>Update Employee</h1>
-      <form className="form" onSubmit={handleUpdate}>
+    <Modal
+      title="Update User"
+      visible={isEdit}
+      onOk={handleOk}
+      onCancel={handleCancel}
+    >
+      <form className="form">
         {image.length > 0 ? (
           <div
             style={{
@@ -53,12 +42,12 @@ export default function UpdateEmploye({
               if (image.length > 0) {
                 setImage("");
               } else {
-                setImage(employee.image);
+                setImage(user.image);
               }
             }}
           >
             <img
-              src={`http://localhost:5000/images/${employee.image}`}
+              src={`http://localhost:5000/images/${user.image}`}
               alt="employee"
               style={{
                 borderRadius: "50%",
@@ -84,7 +73,7 @@ export default function UpdateEmploye({
               <p
                 style={{
                   position: "absolute",
-                  top: "-40%",
+                  top: "0%",
                   left: "35%",
                   fontSize: "30px",
                   fontWeight: "bolder",
@@ -101,17 +90,17 @@ export default function UpdateEmploye({
             style={{
               marginLeft: "auto",
               marginRight: "auto",
-              width: "10%",
+              width: "50%",
             }}
             onChange={uploadImage}
             multiple={false}
           />
         )}
-        {Object.keys(employee).map(
+        {Object.keys(user).map(
           (item, index) =>
             item !== "id" &&
             item !== "image" && (
-              <div className="form" style={{ width: "500px" }} key={index}>
+              <div className="form" key={index}>
                 <label htmlFor={item}>{item}</label>
                 <input
                   type="text"
@@ -123,17 +112,7 @@ export default function UpdateEmploye({
               </div>
             )
         )}
-
-        <button type="submit">Submit</button>
       </form>
-      <button
-        onClick={() => {
-          setIsEdit(!isEdit);
-          setEmployee({});
-        }}
-      >
-        Close
-      </button>
-    </div>
+    </Modal>
   );
 }
