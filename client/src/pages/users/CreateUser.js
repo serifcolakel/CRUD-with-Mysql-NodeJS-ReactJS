@@ -1,6 +1,6 @@
 import React from "react";
 import { Modal } from "antd";
-import { openNotification } from "../utils/notification";
+import { openNotification } from "../../utils/notification";
 export default function CreateUser({
   data,
   setData,
@@ -42,7 +42,7 @@ export default function CreateUser({
             width: "50%",
           }}
           onChange={uploadImage}
-          multiple={false}
+          multiple={true}
         />
       </form>
     </Modal>
