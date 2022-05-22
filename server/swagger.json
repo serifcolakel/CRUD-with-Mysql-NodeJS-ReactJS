@@ -1,0 +1,323 @@
+{
+    "swagger": "2.0",
+    "definitions": {
+        "User": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "username": {
+                    "type": "string"
+                },
+                "firstName": {
+                    "type": "string"
+                },
+                "lastName": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "phone": {
+                    "type": "string"
+                },
+                "userStatus": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "User Status"
+                }
+            }
+        }
+    },
+    "info": {
+        "title": "Mysql Crud Operation",
+        "description": "NodeJS REST API for mysql crud operation",
+        "version": "1.0.0",
+        "contact": {
+            "name": "Şerif ÇOLAKEL",
+            "url": "https://serifcolakel.vercel.app/",
+            "email": "serifcolakel0@gmail.com"
+        }
+    },
+    "host": "localhost:5000",
+    "basePath": "/api",
+    "schemes": [
+        "http",
+        "https"
+    ],
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "tags": [
+        {
+            "name": "User",
+            "description": "User management"
+        }
+    ],
+    "paths": {
+        "/user": {
+            "get": {
+                "description": "Get all users",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User"
+                ],
+                "summary": "Get all users",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "schema": {
+                            "type": "array",
+                            "example": {
+                                "id": 1,
+                                "name": "John Doe",
+                                "email": "1@gmail.com"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid ID supplied"
+                    },
+                    "404": {
+                        "description": "User not found"
+                    }
+                }
+            }
+        },
+        "/new-user": {
+            "post": {
+                "description": "Create new user",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User"
+                ],
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "User object",
+                        "required": true,
+                        "schema": {
+                            "additionalProperties": {},
+                            "default": {
+                                "id": 1,
+                                "fullName": "John Doe",
+                                "userName": "john",
+                                "email": "serifcolakel@gmail.com",
+                                "password": "123456",
+                                "image": "1653162087439_logo192.png",
+                                "age": 1,
+                                "country": "123456789",
+                                "position": "Dev",
+                                "salary": "100000"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "schema": {
+                            "$ref": "#/definitions/User"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid ID supplied"
+                    },
+                    "404": {
+                        "description": "User not found"
+                    }
+                }
+            }
+        },
+        "/user/{id}": {
+            "get": {
+                "description": "Get user by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User"
+                ],
+                "summary": "Get user by ID",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of user to return",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Başarılı işlem",
+                        "schema": {
+                            "type": "array",
+                            "example": {
+                                "id": 1,
+                                "fullName": "John Doe",
+                                "userName": "john",
+                                "email": "serifcolakel@gmail.com",
+                                "password": "123456",
+                                "image": "1653162087439_logo192.png",
+                                "age": 1,
+                                "country": "123456789",
+                                "position": "Dev",
+                                "salary": "100000"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid ID supplied"
+                    },
+                    "404": {
+                        "description": "User not found"
+                    }
+                }
+            },
+            "put": {
+                "description": "Update user by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User"
+                ],
+                "summary": "Update user by ID",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of user to return",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "User object",
+                        "required": true,
+                        "schema": {
+                            "default": {
+                                "fullName": "John Doe",
+                                "userName": "john",
+                                "email": "serifcolakel@gmail.com",
+                                "password": "123456",
+                                "image": "1653162087439_logo192.png",
+                                "age": 1,
+                                "country": "123456789",
+                                "position": "Dev",
+                                "salary": "100000"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Başarılı işlem",
+                        "schema": {
+                            "type": "array",
+                            "example": {
+                                "id": 1,
+                                "fullName": "John Doe",
+                                "userName": "john",
+                                "email": "serifcolakel@gmail.com",
+                                "password": "123456",
+                                "image": "1653162087439_logo192.png",
+                                "age": 1,
+                                "country": "123456789",
+                                "position": "Dev",
+                                "salary": "100000"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid ID supplied"
+                    },
+                    "404": {
+                        "description": "User not found"
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete user by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User"
+                ],
+                "summary": "Delete user by ID",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of user to return",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Başarılı işlem",
+                        "schema": {
+                            "type": "array",
+                            "example": {
+                                "id": 1,
+                                "fullName": "John Doe",
+                                "userName": "john",
+                                "email": "serifcolakel@gmail.com",
+                                "password": "123456",
+                                "image": "1653162087439_logo192.png",
+                                "age": 1,
+                                "country": "123456789",
+                                "position": "Dev",
+                                "salary": "100000"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid ID supplied"
+                    },
+                    "500": {
+                        "description": "Internal error"
+                    }
+                }
+            }
+        }
+    },
+    "securityDefinitions": {
+        "api_key": {
+            "type": "apiKey",
+            "name": "api_key",
+            "description": "API Key",
+            "in": "header"
+        },
+        "petstore_auth": {
+            "type": "oauth2",
+            "authorizationUrl": "https://petstore.swagger.io/oauth/authorize",
+            "flow": "implicit",
+            "scopes": {
+                "read:pets": "read your pets",
+                "write:pets": "modify pets in your account"
+            }
+        }
+    },
+    "externalDocs": {
+        "description": "Find out more about Swagger Examples JSON",
+        "url": "https://petstore.swagger.io/v2/swagger.json"
+    }
+}

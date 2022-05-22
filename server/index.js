@@ -1,5 +1,8 @@
 const express = require("express");
 const app = express();
+const swaggerUi = require("swagger-ui-express");
+const swaggerJsDoc = require("swagger-jsdoc");
+const opt = require("./swagger.json");
 const cors = require("cors");
 const multer = require("multer");
 app.use(cors());
@@ -29,6 +32,18 @@ const upload = multer({
   storage: storage,
   limits: { fileSize: 100000 },
 }).single("image");
+
+const options = {
+  swaggerDefinition: opt,
+  apis: ["./routes/api/*.js"],
+  authorizations: {
+    bearerAuth: {
+      type: "http",
+      scheme: "bearer",
+      bearerFormat: "JWT",
+    },
+  },
+};
 
 app.post("/api/image/user", (req, res) => {
   upload(req, res, function (err) {
@@ -61,6 +76,8 @@ app.get("/api/image/user", (req, res) => {
 
 app.use("/api", require("./routes/api/users"));
 app.use("/api", require("./routes/api/blogs"));
+const specs = swaggerJsDoc(options);
+app.use("/", swaggerUi.serve, swaggerUi.setup(specs));
 app.listen(5000, () => {
   console.log("Server started on port 5000");
 });
