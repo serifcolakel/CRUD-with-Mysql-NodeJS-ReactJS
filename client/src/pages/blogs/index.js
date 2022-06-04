@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { openNotification } from "../../utils/notification";
-import { Button, Input, Tag, Space } from "antd";
+import { Button, Input, Space } from "antd";
 import CustomTable from "../../components/CustomTable";
 import CreateBlog from "./CreateBlog";
 import UpdateBlog from "./UpdateBlog";
@@ -56,10 +56,17 @@ export default function Blogs() {
       title: data.title,
       content: content,
     };
-    axios.post("http://localhost:5000/api/new-blog", newBlog).then((res) => {
-      getBlogs();
-      setIsCreate(false);
-    });
+    axios
+      .post("http://localhost:5000/api/new-blog", newBlog, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `${localStorage.getItem("token")}`,
+        },
+      })
+      .then((res) => {
+        getBlogs();
+        setIsCreate(false);
+      });
   }
 
   function getBlogs() {
@@ -73,10 +80,17 @@ export default function Blogs() {
   //   });
   // }
   function deleteBlog(id) {
-    axios.delete(`http://localhost:5000/api/blog/${id}`).then((res) => {
-      getBlogs();
-      openNotification("success", "Blog Başarıyla Silindi");
-    });
+    axios
+      .delete(`http://localhost:5000/api/blog/${id}`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `${localStorage.getItem("token")}`,
+        },
+      })
+      .then((res) => {
+        getBlogs();
+        openNotification("success", "Blog Başarıyla Silindi");
+      });
   }
   function updateBlog(blog) {
     setBlog(blog);

@@ -12,7 +12,12 @@ export default function CustomEditor({ data, setData }) {
           loader.file.then((file) => {
             body.append("image", file);
             axios
-              .post("http://localhost:5000/api/image/user", body)
+              .post("http://localhost:5000/api/image/user", body, {
+                headers: {
+                  "Content-Type": "application/json",
+                  Authorization: `${localStorage.getItem("token")}`,
+                },
+              })
               .then((res) => {
                 resolve({
                   default: `http://localhost:5000/images/user/${res.data.image}`,
@@ -29,9 +34,36 @@ export default function CustomEditor({ data, setData }) {
       return uploadAdapter(loader);
     };
   }
+  const style = {
+    row: {
+      display: "flex",
+      flexDirection: "row",
+      justifyContent: "space-between",
+      alignItems: "center",
+      width: "100%",
+      margin: "20px !important",
+      backgroundColor: "#f5f5f5",
+    },
+    col: {
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "space-between",
+      alignItems: "center",
+      width: "100%",
+    },
+  };
   return (
-    <div>
-      <h2>Using CKEditor 5 build in React</h2>
+    <div className={style.row}>
+      <h2
+        style={{
+          textAlign: "center",
+          margin: "20px",
+          fontSize: "20px",
+          color: "#fff",
+        }}
+      >
+        Using CKEditor 5 build in React
+      </h2>
       <CKEditor
         editor={ClassicEditor}
         config={{

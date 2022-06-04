@@ -1,6 +1,6 @@
 import axios from "axios";
 import React from "react";
-import { Modal } from "antd";
+import { message, Modal } from "antd";
 import "../../App.css";
 import { openNotification } from "../../utils/notification";
 import CustomEditor from "../../components/CustomEditor";
@@ -12,7 +12,12 @@ export default function UpdateBlog({ data, isEdit, setIsEdit, setData }) {
       content: content,
     };
     axios
-      .put(`http://localhost:5000/api/blog/${data.id}`, updateBlog)
+      .put(`http://localhost:5000/api/blog/${data.id}`, updateBlog, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `${localStorage.getItem("token")}`,
+        },
+      })
       .then((res) => {
         setIsEdit(false);
         openNotification("success", "Blog Başarıyla Güncellendi");
@@ -20,7 +25,8 @@ export default function UpdateBlog({ data, isEdit, setIsEdit, setData }) {
   };
   const handleCancel = () => {
     setIsEdit(false);
-    openNotification("info", "Blog Güncelleme İşlemi İptal Edildi");
+    message.info("Blog Güncelleme İşlemi İptal Edildi");
+    //openNotification("info", "Blog Güncelleme İşlemi İptal Edildi");
   };
   const [content, setContent] = React.useState(data.content);
   return (

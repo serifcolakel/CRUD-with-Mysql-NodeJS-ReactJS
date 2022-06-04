@@ -1,4 +1,5 @@
 import React from "react";
+import "../index.css";
 import { Link, Outlet } from "react-router-dom";
 const style = {
   row: {
@@ -14,6 +15,7 @@ const style = {
     alignItems: "center",
   },
 };
+
 export default function Layout() {
   return (
     <div>
@@ -21,23 +23,29 @@ export default function Layout() {
         style={{
           ...style.row,
           padding: "10px",
-          maxWidth: "1200px",
+          maxWidth: "1240px",
           margin: "0 auto 80px auto",
           backgroundColor: "#f5f5f5",
         }}
       >
-        <h5>Welcome to the app!</h5>
+        <Link to="/">Welcome to the app!</Link>
         <div
           style={{
             ...style.row,
             gap: "10px",
           }}
         >
-          <Link to="user">Users</Link> | <Link to="sliders">Sliders</Link> |{" "}
+          <Link to="user">Users</Link> | <Link to="blogs">Blogs</Link> |{" "}
           <Link to="blogs">Blogs</Link>
         </div>
       </nav>
-      <div>
+      <div
+        style={{
+          ...style.col,
+          justifyContent: "center",
+          width: "100%",
+        }}
+      >
         <Outlet />
       </div>
     </div>

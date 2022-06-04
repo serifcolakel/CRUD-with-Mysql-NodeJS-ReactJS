@@ -1,5 +1,5 @@
 import React from "react";
-import { Table, Tag, Space, Button } from "antd";
+import { Table } from "antd";
 
 export default function CustomTable({ data, columns }) {
   return (
@@ -15,9 +15,10 @@ export default function CustomTable({ data, columns }) {
       }}
       footer={() => (
         <p>
-          <b>Kullanıcı Sayısı : </b> {data.length}
+          <b>Toplam sayı : </b> {data.length}
         </p>
       )}
+      rowKey={(record) => record.id}
       columns={columns}
       dataSource={data}
     />

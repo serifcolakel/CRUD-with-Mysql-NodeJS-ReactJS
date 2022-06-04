@@ -113,7 +113,12 @@ export default function Users() {
       image: showImage,
     };
     axios
-      .post("http://localhost:5000/api/new-user", newEmployee)
+      .post("http://localhost:5000/api/new-user", newEmployee, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `${localStorage.getItem("token")}`,
+        },
+      })
       .then((res) => {
         console.log(res);
         getUser();
@@ -132,9 +137,16 @@ export default function Users() {
   //   });
   // }
   function deleteUser(id) {
-    axios.delete(`http://localhost:5000/api/user/${id}`).then((res) => {
-      getUser();
-    });
+    axios
+      .delete(`http://localhost:5000/api/user/${id}`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `${localStorage.getItem("token")}`,
+        },
+      })
+      .then((res) => {
+        getUser();
+      });
   }
   function updateUser(user) {
     setUser(user);
@@ -146,7 +158,12 @@ export default function Users() {
     formData.append("image", e.target.files[0]);
     e.target.files[0] &&
       axios
-        .post(`http://localhost:5000/api/image/user`, formData)
+        .post(`http://localhost:5000/api/image/user`, formData, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `${localStorage.getItem("token")}`,
+          },
+        })
         .then((res) => {
           setShowImage(res.data.image);
           openNotification("success", "Resim Başarıyla Yüklendi");
