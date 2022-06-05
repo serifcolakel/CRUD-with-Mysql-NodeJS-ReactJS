@@ -36,10 +36,10 @@
 
 ## About The Project
 
-In this project, I developed the TODO application, which is one of the projects for developers at the introductory stage, by applying the design examples I obtained from the internet. Apart from the good experience I had, it offered the opportunity to apply the back-end methods I learned.
+In this project, I aim to perform operations such as testing and managing CRUD operations by making use of the documentation of the relevant libraries in terms of contributing to the logic operations on the front-end side and understanding the operation, as well as understanding the way of managing the developments and functionality on the backend side with the trainings I have received.
 
 <details>
-  <summary>Image of Project (VERY SOON...)</summary>
+  <summary>Screenshots of Project</summary>
   <ol>
     <li>
         <p>Home Page</p>
@@ -101,6 +101,7 @@ _Below is an example of how you can instruct your audience on installing and set
    ```sh
    cd client
    npm install
+   cd ..
    cd server
    npm install
    ```
@@ -138,17 +139,20 @@ _For more examples, please refer to the [React Documentation](https://reactjs.or
 
 ## Roadmap
 
+- [x] Added Mysql Database Connection
 - [x] Added Login page design (with username/email verification)
 - [x] Added Router for the client
 - [x] Added Router for the server
 - [x] Added Blogs Crud page design (with CRUD operations)
 - [x] Added Users Crud page design (with CRUD operations)
-- [ ] Improved for server & clint side file & folder structure
+- [ ] Improve server & client side file & folder structure
 - [x] Added CRUD functionality
-- [ ] Improved CRUD functionality
+- [ ] Improve CRUD functionality
+- [ ] Add
 - [x] Added authentication
-- [ ] Improved authentication functionality
-- [ ] Improved design
+- [ ] Improve authentication functionality
+- [ ] Add Redux
+- [ ] Improve design
 - [ ] Add user notifications
 
 See the [open issues](https://github.com/serifcolakel/CRUD-with-Mysql-NodeJS-ReactJS/issues) for a full list of proposed features (and known issues).
