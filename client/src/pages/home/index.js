@@ -1,12 +1,25 @@
-import axios from "axios";
+import { message } from "antd";
 import React from "react";
+import instance from "../../auth/useAxios";
 
 export default function Home() {
   const [blogs, setBlogs] = React.useState([]);
-  function getBlogs() {
-    axios.get("http://localhost:5000/api/blog").then((res) => {
-      setBlogs(res.data);
-    });
+  async function getBlogs() {
+    try {
+      await instance.get("/blog").then((res) => {
+        setBlogs(res.data);
+      });
+    } catch (error) {
+      if (error.response.data) {
+        message.error(
+          "Oturum süreniz sona erdi. Anasayfaya yönlendiriliyorsunuz."
+        );
+        localStorage.removeItem("token");
+        setTimeout(() => {
+          window.location.href = "/";
+        }, 1500);
+      }
+    }
   }
   React.useEffect(() => {
     getBlogs();

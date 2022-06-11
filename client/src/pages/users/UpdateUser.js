@@ -1,8 +1,8 @@
-import axios from "axios";
 import React from "react";
 import { Modal } from "antd";
 import "../../App.css";
 import { openNotification } from "../../utils/notification";
+import instance from "../../auth/useAxios";
 export default function UpdateUser({ user, isEdit, setIsEdit, setUser }) {
   const [data, setData] = React.useState(user);
   const [image, setImage] = React.useState(user.image);
@@ -11,8 +11,8 @@ export default function UpdateUser({ user, isEdit, setIsEdit, setUser }) {
     const formData = new FormData();
     formData.append("image", e.target.files[0]);
 
-    axios
-      .post(`http://localhost:5000/api/image/user`, formData)
+    instance
+      .post(`/image/user`, formData)
       .then((res) => {
         setImage(res.data.image);
         openNotification("success", "Resim Başarıyla Yüklendi");
@@ -24,7 +24,7 @@ export default function UpdateUser({ user, isEdit, setIsEdit, setUser }) {
   }
   const handleOk = (e) => {
     e.preventDefault();
-    axios.put(`http://localhost:5000/api/user/${user.id}`, data).then((res) => {
+    instance.put(`/user/${user.id}`, data).then((res) => {
       setIsEdit(false);
       openNotification("success", "Kullanıcı Başarıyla Güncellendi");
     });

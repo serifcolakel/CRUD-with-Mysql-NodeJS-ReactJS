@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import axios from "axios";
 import CreateUser from "./CreateUser";
 import UpdateUser from "./UpdateUser";
 import CustomTable from "../../components/CustomTable";
 import { openNotification } from "../../utils/notification";
-import { Button, Input, Tag, Space } from "antd";
+import { Button, Input, Tag, Space, message } from "antd";
+import instance from "../../auth/useAxios";
 const { Search } = Input;
 
 const initialValues = {
@@ -112,8 +112,8 @@ export default function Users() {
       ...data,
       image: showImage,
     };
-    axios
-      .post("http://localhost:5000/api/new-user", newEmployee, {
+    instance
+      .post("/new-user", newEmployee, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `${localStorage.getItem("token")}`,
@@ -126,19 +126,31 @@ export default function Users() {
       });
   }
 
-  function getUser() {
-    axios.get("http://localhost:5000/api/user").then((res) => {
-      setUsers(res.data);
-    });
+  async function getUser() {
+    try {
+      await instance.get("/user").then((res) => {
+        setUsers(res.data);
+      });
+    } catch (error) {
+      if (error.response.data) {
+        message.error(
+          "Oturum süreniz sona erdi. Anasayfaya yönlendiriliyorsunuz."
+        );
+        localStorage.removeItem("token");
+        setTimeout(() => {
+          window.location.href = "/";
+        }, 1500);
+      }
+    }
   }
   // function getEmployee(id) {
-  //   axios.get(`http://localhost:5000/api/user/${id}`).then((res) => {
+  //   instance.get(`/user/${id}`).then((res) => {
   //     console.log(res.data[0]);
   //   });
   // }
   function deleteUser(id) {
-    axios
-      .delete(`http://localhost:5000/api/user/${id}`, {
+    instance
+      .delete(`/user/${id}`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `${localStorage.getItem("token")}`,
@@ -157,8 +169,8 @@ export default function Users() {
     const formData = new FormData();
     formData.append("image", e.target.files[0]);
     e.target.files[0] &&
-      axios
-        .post(`http://localhost:5000/api/image/user`, formData, {
+      instance
+        .post(`/image/user`, formData, {
           headers: {
             "Content-Type": "application/json",
             Authorization: `${localStorage.getItem("token")}`,

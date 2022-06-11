@@ -10,7 +10,7 @@ const {
 const { validateToken } = require("../../middlewares/loginMiddlewares");
 
 router.route("/new-blog").post(validateToken, createBlog);
-router.route("/blog").get(getAllBlogs);
+router.route("/blog").get(validateToken, getAllBlogs);
 router
   .route("/blog/:id")
   .get(validateToken, getBlogById)

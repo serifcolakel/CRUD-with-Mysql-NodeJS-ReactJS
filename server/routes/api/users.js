@@ -7,9 +7,14 @@ const {
   getUserById,
   updateUser,
 } = require("../../controllers/userControllers");
+const { validateToken } = require("../../middlewares/loginMiddlewares");
 
-router.route("/new-user").post(createUser);
-router.route("/user").get(getAllUsers);
-router.route("/user/:id").get(getUserById).put(updateUser).delete(deleteUser);
+router.route("/new-user").post(validateToken, createUser);
+router.route("/user").get(validateToken, getAllUsers);
+router
+  .route("/user/:id")
+  .get(validateToken, getUserById)
+  .put(validateToken, updateUser)
+  .delete(validateToken, deleteUser);
 
 module.exports = router;

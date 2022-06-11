@@ -1,29 +1,46 @@
 import { Button, Input, message } from "antd";
-import axios from "axios";
 import jwt_decode from "jwt-decode";
 import React from "react";
+import { useNavigate } from "react-router-dom";
+import instance from "../auth/useAxios";
 const initialValues = {
   userName: "serif",
   password: "123456",
 };
-export default function Login({ setUser, setAuth }) {
-  const [login, setLogin] = React.useState(initialValues);
 
+export default function Login({ setUser, auth, dispatch }) {
+  const [login, setLogin] = React.useState(initialValues);
+  const navigate = useNavigate();
   const handleLogin = async () => {
     try {
-      await axios.post("http://localhost:5000/api/login", login).then((res) => {
+      await instance.post("/login", login).then((res) => {
         localStorage.setItem("token", res.data.token);
         const decoded = jwt_decode(res.data.token);
         message.success("Giriş Başarılı");
-        setUser(decoded);
-        setAuth(true);
-        window.location.reload();
+        dispatch({ type: "AUTH_USER", payload: decoded });
+        navigate("/");
       });
     } catch (error) {
+      dispatch({ type: "UNAUTH_USER" });
       message.error("Kullanıcı Adı veya Şifre Yanlış", error.message);
     }
   };
 
+  React.useEffect(() => {
+    if (localStorage.getItem("token")) {
+      if (jwt_decode(localStorage.getItem("token")).exp > Date.now() / 1000) {
+        dispatch({
+          type: "AUTH_USER",
+          payload: jwt_decode(localStorage.getItem("token")),
+        });
+        navigate("/");
+      } else {
+        message.error("Token is Expired");
+        localStorage.removeItem("token");
+        navigate("/");
+      }
+    }
+  }, [auth]);
   return (
     <div
       style={{

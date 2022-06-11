@@ -1,9 +1,9 @@
-import axios from "axios";
 import React from "react";
 import { message, Modal } from "antd";
 import "../../App.css";
 import { openNotification } from "../../utils/notification";
 import CustomEditor from "../../components/CustomEditor";
+import instance from "../../auth/useAxios";
 export default function UpdateBlog({ data, isEdit, setIsEdit, setData }) {
   const handleOk = (e) => {
     e.preventDefault();
@@ -11,8 +11,8 @@ export default function UpdateBlog({ data, isEdit, setIsEdit, setData }) {
       title: data.title,
       content: content,
     };
-    axios
-      .put(`http://localhost:5000/api/blog/${data.id}`, updateBlog, {
+    instance
+      .put(`/blog/${data.id}`, updateBlog, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `${localStorage.getItem("token")}`,

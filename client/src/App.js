@@ -1,10 +1,10 @@
 import "./App.css";
 import "antd/dist/antd.min.css";
-import React, { Suspense, useEffect } from "react";
+import React, { Suspense } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { message, Spin } from "antd";
+import { Spin } from "antd";
 import Home from "./pages/home";
-import jwtDecode from "jwt-decode";
+import authReducer from "./auth/authReducer";
 
 const Users = React.lazy(() => import("./pages/users/index"));
 const Sliders = React.lazy(() => import("./pages/sliders/index"));
@@ -13,22 +13,12 @@ const NoMatch = React.lazy(() => import("./components/NoMatch"));
 const Layout = React.lazy(() => import("./components/Layout"));
 const Login = React.lazy(() => import("./components/Login"));
 function App() {
-  const [user, setUser] = React.useState(null);
-  const [auth, setAuth] = React.useState(false);
-
-  useEffect(() => {
-    if (localStorage.getItem("token")) {
-      if (jwtDecode(localStorage.getItem("token")).exp > Date.now() / 1000) {
-        setUser(jwtDecode(localStorage.getItem("token")));
-        setAuth(true);
-      } else {
-        setAuth(false);
-        message.error("Token is Expired");
-        localStorage.removeItem("token");
-      }
-    }
-  }, [auth]);
-
+  const [auth, dispatch] = React.useReducer(authReducer, {
+    authenticated: false,
+    user: null,
+    error: null,
+  });
+  console.log(auth);
   return (
     <Suspense
       fallback={
@@ -44,9 +34,9 @@ function App() {
       }
     >
       <Router>
-        {auth ? (
+        {auth.authenticated ? (
           <Routes>
-            <Route path="/" element={<Layout user={user} />}>
+            <Route path="/" element={<Layout user={auth.user} />}>
               <Route index element={<Home />} />
               <Route path="user" index element={<Users />} />
               <Route path="sliders" element={<Sliders />} />
@@ -58,9 +48,12 @@ function App() {
           <Routes>
             <Route
               index
-              element={<Login setUser={setUser} setAuth={setAuth} />}
+              element={<Login dispatch={dispatch} auth={auth.authenticated} />}
             />
-            <Route path="*" element={<Login setUser={setUser} />} />
+            <Route
+              path="*"
+              element={<Login dispatch={dispatch} auth={auth.authenticated} />}
+            />
           </Routes>
         )}
       </Router>

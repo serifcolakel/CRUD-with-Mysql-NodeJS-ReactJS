@@ -35,8 +35,7 @@ export default function Layout() {
             gap: "10px",
           }}
         >
-          <Link to="user">Users</Link> | <Link to="blogs">Blogs</Link> |{" "}
-          <Link to="blogs">Blogs</Link>
+          <Link to="user">Users</Link> | <Link to="blogs">Blogs</Link>
         </div>
       </nav>
       <div

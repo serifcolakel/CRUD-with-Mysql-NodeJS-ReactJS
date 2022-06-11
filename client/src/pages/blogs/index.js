@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import axios from "axios";
 import { openNotification } from "../../utils/notification";
-import { Button, Input, Space } from "antd";
+import { Button, Input, message, Space } from "antd";
 import CustomTable from "../../components/CustomTable";
 import CreateBlog from "./CreateBlog";
 import UpdateBlog from "./UpdateBlog";
+import instance from "../../auth/useAxios";
 
 export default function Blogs() {
   const columns = [
@@ -56,32 +56,48 @@ export default function Blogs() {
       title: data.title,
       content: content,
     };
-    axios
-      .post("http://localhost:5000/api/new-blog", newBlog, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `${localStorage.getItem("token")}`,
-        },
-      })
-      .then((res) => {
-        getBlogs();
-        setIsCreate(false);
-      });
+    try {
+      instance
+        .post("/new-blog", newBlog, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `${localStorage.getItem("token")}`,
+          },
+        })
+        .then((res) => {
+          getBlogs();
+          setIsCreate(false);
+        });
+    } catch (error) {
+      message.error("Error");
+    }
   }
 
-  function getBlogs() {
-    axios.get("http://localhost:5000/api/blog").then((res) => {
-      setBlogs(res.data);
-    });
+  async function getBlogs() {
+    try {
+      await instance.get("/blog").then((res) => {
+        setBlogs(res.data);
+      });
+    } catch (error) {
+      if (error.response.data) {
+        message.error(
+          "Oturum süreniz sona erdi. Anasayfaya yönlendiriliyorsunuz."
+        );
+        localStorage.removeItem("token");
+        setTimeout(() => {
+          window.location.href = "/";
+        }, 1500);
+      }
+    }
   }
   // function getBlog(id) {
-  //   axios.get(`http://localhost:5000/api/blog/${id}`).then((res) => {
+  //   instance.get(`http://localhost:5000/api/blog/${id}`).then((res) => {
   //     console.log(res.data[0]);
   //   });
   // }
   function deleteBlog(id) {
-    axios
-      .delete(`http://localhost:5000/api/blog/${id}`, {
+    instance
+      .delete(`/blog/${id}`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `${localStorage.getItem("token")}`,
