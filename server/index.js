@@ -34,7 +34,7 @@ const storage = multer.diskStorage({
 });
 const upload = multer({
   storage: storage,
-  limits: { fileSize: 100000 },
+  limits: { fileSize: 500000 },
 }).single("image");
 
 const options = {
@@ -93,7 +93,7 @@ app.post("/api/login", (req, res) => {
       });
     }
     const accessToken = jwt.sign({ ...resUser[0] }, process.env.SECRET_KEY, {
-      expiresIn: "60s",
+      expiresIn: "360s",
       algorithm: "HS256",
     });
     db.query(
@@ -137,6 +137,7 @@ app.post("/api/login", (req, res) => {
 
 app.use("/api", require("./routes/api/users"));
 app.use("/api", require("./routes/api/blogs"));
+app.use("/api", require("./routes/api/faqs"));
 const specs = swaggerJsDoc(options);
 app.use("/", swaggerUi.serve, swaggerUi.setup(specs));
 app.listen(5000, () => {

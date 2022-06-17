@@ -12,6 +12,9 @@ const Blogs = React.lazy(() => import("./pages/blogs/index"));
 const NoMatch = React.lazy(() => import("./components/NoMatch"));
 const Layout = React.lazy(() => import("./components/Layout"));
 const Login = React.lazy(() => import("./components/Login"));
+const Faqs = React.lazy(() => import("./pages/faqs/index"));
+const Menu = React.lazy(() => import("./pages/menu/index"));
+const Content = React.lazy(() => import("./pages/contents/index"));
 function App() {
   const [auth, dispatch] = React.useReducer(authReducer, {
     authenticated: false,
@@ -36,11 +39,14 @@ function App() {
       <Router>
         {auth.authenticated ? (
           <Routes>
-            <Route path="/" element={<Layout user={auth.user} />}>
+            <Route path="/" element={<Layout />}>
               <Route index element={<Home />} />
-              <Route path="user" index element={<Users />} />
+              <Route path="users" element={<Users />} />
+              <Route path="blogs" element={<Blogs user={auth.user} />} />
               <Route path="sliders" element={<Sliders />} />
-              <Route path="blogs" element={<Blogs />} />
+              <Route path="faqs" element={<Faqs />} />
+              <Route path="menu" element={<Menu />} />
+              <Route path="content" element={<Content />} />
             </Route>
             <Route path="*" element={<NoMatch />} />
           </Routes>

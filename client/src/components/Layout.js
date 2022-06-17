@@ -25,17 +25,78 @@ export default function Layout() {
           padding: "10px",
           maxWidth: "1240px",
           margin: "0 auto 80px auto",
-          backgroundColor: "#f5f5f5",
+          backgroundColor: "#2855AC",
+          overflow: "scroll",
+          color: "white",
         }}
       >
-        <Link to="/">Welcome to the app!</Link>
+        <Link
+          style={{
+            color: "white",
+          }}
+          to="/"
+        >
+          Welcome to the app!
+        </Link>
         <div
           style={{
             ...style.row,
             gap: "10px",
           }}
         >
-          <Link to="user">Users</Link> | <Link to="blogs">Blogs</Link>
+          <Link
+            style={{
+              color: "white",
+            }}
+            to="users"
+          >
+            Kullanıcılar
+          </Link>{" "}
+          |{" "}
+          <Link
+            style={{
+              color: "white",
+            }}
+            to="blogs"
+          >
+            Blog
+          </Link>{" "}
+          |{" "}
+          <Link
+            style={{
+              color: "white",
+            }}
+            to="sliders"
+          >
+            Slider
+          </Link>
+          |{" "}
+          <Link
+            style={{
+              color: "white",
+            }}
+            to="faqs"
+          >
+            Sık Sorulan Sorular
+          </Link>
+          |{" "}
+          <Link
+            style={{
+              color: "white",
+            }}
+            to="menu"
+          >
+            Menü
+          </Link>
+          |{" "}
+          <Link
+            style={{
+              color: "white",
+            }}
+            to="content"
+          >
+            İçerik
+          </Link>
         </div>
       </nav>
       <div

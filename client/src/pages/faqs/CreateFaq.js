@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Button, Drawer, Form, Input, Switch } from "antd";
 import { openNotification } from "../../utils/notification";
 import CustomEditor from "../../components/CustomEditor";
-export default function CreateBlog({
+export default function CreateFaq({
   data,
   setData,
   handleSubmit,
@@ -10,16 +10,19 @@ export default function CreateBlog({
   isCreate,
   setIsCreate,
 }) {
-  const [content, setContent] = useState("<p>Blog için İçerik Giriniz</p>");
+  const [content, setContent] = useState(
+    "<p>Sıkça Sorulacak Soruyu Giriniz</p>"
+  );
   const handleCancel = () => {
     setIsCreate(false);
-    openNotification("info", "Kayıt İşlemi Başarıyla İptal Edildi22");
+    openNotification("info", "Kayıt İşlemi Başarıyla İptal Edildi");
   };
   const [form] = Form.useForm();
+
   return (
     <Drawer
       width={window.innerWidth > 600 ? "50%" : "100%"}
-      title="Blog Ekle"
+      title="Sık Sorulan Soru Ekle"
       placement={"right"}
       closable={false}
       onClose={handleCancel}
@@ -46,10 +49,9 @@ export default function CreateBlog({
           <Button
             type="primary"
             onClick={() => {
-              console.log(form.getFieldsValue(), content);
               handleSubmit({
                 ...form.getFieldsValue(),
-                content,
+                answer: content,
               });
             }}
           >
@@ -102,7 +104,7 @@ export default function CreateBlog({
             item === "title" && (
               <div className="form" key={index}>
                 <label htmlFor={item}>{item}</label>
-                <Input
+                <input
                   type="text"
                   placeholder={`Enter ${item}`}
                   value={data[item]}
@@ -113,6 +115,16 @@ export default function CreateBlog({
               </div>
             )
         )}
+        <Switch size="default" checkedChildren="1" unCheckedChildren="0" />
+        <Switch
+          checked={data.isActive}
+          onChange={(e) => setData({ ...data, isActive: e })}
+        />
+        <Switch
+          checked={data.isActive}
+          onChange={(e) => setData({ ...data, isActive: e })}
+        />
+        
       </form> */}
       <CustomEditor data={content} setData={setContent} />
     </Drawer>

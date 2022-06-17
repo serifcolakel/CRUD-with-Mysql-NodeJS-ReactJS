@@ -8,16 +8,23 @@ export default function CustomTable({ data, columns }) {
         overflow: window.innerWidth > 768 ? "none" : "scroll",
         width: window.innerWidth > 768 ? "80%" : "100%",
       }}
-      pagination={() => {
-        return {
-          pageSize: window.innerWidth > 768 ? 10 : 5,
-        };
+      pagination={{
+        pageSize: 5,
+        showSizeChanger: true,
+        showQuickJumper: true,
+        showTotal: (total) => `Toplam ${total} kayıt`,
+        // itemRender: (current, type, originalElement) => {
+        //   if (type === "prev") {
+        //     return <a>Önceki</a>;
+        //   }
+        //   if (type === "next") {
+        //     return <a>Sonraki</a>;
+        //   }
+        //   return originalElement;
+        // },
+        //nextIcon: <a>Sonraki</a>,
+        //prevIcon: <a>Önceki</a>,
       }}
-      footer={() => (
-        <p>
-          <b>Toplam sayı : </b> {data.length}
-        </p>
-      )}
       rowKey={(record) => record.id}
       columns={columns}
       dataSource={data}

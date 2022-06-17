@@ -4,40 +4,34 @@ import "../../App.css";
 import { openNotification } from "../../utils/notification";
 import CustomEditor from "../../components/CustomEditor";
 import instance from "../../auth/useAxios";
-export default function UpdateBlog({ data, isEdit, setIsEdit, setData }) {
+export default function UpdateFaq({ data, isEdit, setIsEdit, setData }) {
   const handleOk = (e) => {
     e.preventDefault();
     let updateBlog = {
       ...form.getFieldsValue(),
-      content: content,
+      answer: content,
     };
-    try {
-      instance.put(`/blog/${data.id}`, updateBlog).then((res) => {
-        setIsEdit(false);
-        console.log(res);
-        openNotification("success", "Blog Başarıyla Güncellendi");
-      });
-    } catch (error) {
-      openNotification("error", error.message);
-    }
+    instance.put(`/faq/${data.id}`, updateBlog).then((res) => {
+      setIsEdit(false);
+      openNotification("success", "Sıkça Sorulan Soru Başarıyla Güncellendi");
+    });
   };
-  const [form] = Form.useForm();
   const handleCancel = () => {
     setIsEdit(false);
-    message.info("Blog Güncelleme İşlemi İptal Edildi");
-    //openNotification("info", "Blog Güncelleme İşlemi İptal Edildi");
+    message.info("Sıkça Sorulan Soru Güncelleme İşlemi İptal Edildi");
   };
+  const [content, setContent] = React.useState(data.answer);
+  const [form] = Form.useForm();
   React.useEffect(() => {
     form.setFieldsValue({
       ...data,
     });
     // eslint-disable-next-line
   }, [data]);
-  console.log("UpdateBlog", data);
-  const [content, setContent] = React.useState(data.content);
+  console.log("124124", form.getFieldValue());
   return (
     <Modal
-      title="Update Blog"
+      title="Güncelle Sıkça Sorulan Soru"
       visible={isEdit}
       width={"50%"}
       onOk={handleOk}
@@ -78,24 +72,7 @@ export default function UpdateBlog({ data, isEdit, setIsEdit, setData }) {
           <Switch defaultChecked={data.deletable === 1 ? true : false} />
         </Form.Item>
       </Form>
-      {/* <form className="form">
-        {Object.keys(data).map(
-          (item, index) =>
-            item !== "id" &&
-            item !== "content" && (
-              <div className="form" key={index}>
-                <label htmlFor={item}>{item}</label>
-                <input
-                  type="text"
-                  value={data[item]}
-                  id={item}
-                  name={item}
-                  onChange={(e) => setData({ ...data, [item]: e.target.value })}
-                />
-              </div>
-            )
-        )}
-      </form> */}
+
       <CustomEditor data={content} setData={setContent} />
     </Modal>
   );

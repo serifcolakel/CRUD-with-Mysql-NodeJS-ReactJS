@@ -27,11 +27,12 @@ export default function Home() {
   return (
     <div
       style={{
-        display: "grid",
-        gridTemplateRows: "repeat(auto-fit, minmax(800px, 1024px))",
-        maxWidth: "1240px",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
         padding: "10px",
-        height: "100%",
+        width: "100%",
         gap: "20px",
       }}
     >
@@ -41,9 +42,13 @@ export default function Home() {
           style={{
             border: "1px solid black",
             width: "100%",
+            padding: "10px",
+            height: "auto",
+            overflow: "hidden",
           }}
         >
-          <p>{blog.title}</p>
+          <h2>{blog.title}</h2>
+          <br />
           <div dangerouslySetInnerHTML={{ __html: blog.content }}></div>
         </div>
       ))}
