@@ -18,8 +18,8 @@ export default function UpdateUser({ user, isEdit, setIsEdit, setUser }) {
         openNotification("success", "Resim Başarıyla Yüklendi");
       })
       .catch((err) => {
-        console.log(err);
-        openNotification("error", err);
+        //console.log(err);
+        openNotification("error", err.message);
       });
   }
   const handleOk = (e) => {

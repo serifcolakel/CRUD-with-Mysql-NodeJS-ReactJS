@@ -14,7 +14,6 @@ export default function UpdateBlog({ data, isEdit, setIsEdit, setData }) {
     try {
       instance.put(`/blog/${data.id}`, updateBlog).then((res) => {
         setIsEdit(false);
-        console.log(res);
         openNotification("success", "Blog Başarıyla Güncellendi");
       });
     } catch (error) {
@@ -33,7 +32,6 @@ export default function UpdateBlog({ data, isEdit, setIsEdit, setData }) {
     });
     // eslint-disable-next-line
   }, [data]);
-  console.log("UpdateBlog", data);
   const [content, setContent] = React.useState(data.content);
   return (
     <Modal
@@ -48,10 +46,10 @@ export default function UpdateBlog({ data, isEdit, setIsEdit, setData }) {
         form={form}
         initialValues={{ remember: true }}
         onFinish={(values) => {
-          console.log(form.getFieldsValue());
+          //console.log(form.getFieldsValue());
         }}
         onFinishFailed={(errorInfo) => {
-          console.log("Failed:", errorInfo);
+          //console.log("Failed:", errorInfo);
         }}
         autoComplete="off"
       >

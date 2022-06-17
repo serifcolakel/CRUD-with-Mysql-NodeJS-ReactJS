@@ -8,7 +8,7 @@ const initialValues = {
   password: "123456",
 };
 
-export default function Login({ setUser, auth, dispatch }) {
+export default function Login({ auth, dispatch }) {
   const [login, setLogin] = React.useState(initialValues);
   const navigate = useNavigate();
   const handleLogin = async () => {
@@ -40,6 +40,7 @@ export default function Login({ setUser, auth, dispatch }) {
         navigate("/");
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [auth]);
   return (
     <div

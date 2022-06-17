@@ -11,6 +11,19 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+/* .ck.ck-editor__editable:not(.ck-editor__nested-editable).ck-rounded-corners.ck-focused{
+  border: 1px solid transparent;
+  box-shadow: 0 0 5px rgba(0,0,0,.1);
+}
+.ck.ck-editor__editable:not(.ck-editor__nested-editable).ck-rounded-corners{
+  border: 1px solid transparent;
+  box-shadow: 0 0 5px rgba(0,0,0,.1);
+} */
+.image > img {
+  width: 100% !important;
+  height: 100%;
+  object-fit: cover !important;
+}
 .image {
   width: "100%";
   display: flex;

@@ -46,7 +46,6 @@ export default function CreateBlog({
           <Button
             type="primary"
             onClick={() => {
-              console.log(form.getFieldsValue(), content);
               handleSubmit({
                 ...form.getFieldsValue(),
                 content,
@@ -63,13 +62,13 @@ export default function CreateBlog({
         form={form}
         initialValues={{ remember: true }}
         onFinish={(values) => {
-          console.log(form.getFieldsValue());
+          //console.log(form.getFieldsValue());
         }}
         onChange={(e) => {
-          console.log(form.getFieldsValue());
+          //console.log(form.getFieldsValue());
         }}
         onFinishFailed={(errorInfo) => {
-          console.log("Failed:", errorInfo);
+          //console.log("Failed:", errorInfo);
         }}
         autoComplete="off"
       >

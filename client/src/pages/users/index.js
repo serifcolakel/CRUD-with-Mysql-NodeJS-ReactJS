@@ -120,7 +120,6 @@ export default function Users() {
         },
       })
       .then((res) => {
-        console.log(res);
         getUser();
         setIsCreate(false);
       });

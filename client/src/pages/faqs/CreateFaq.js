@@ -65,13 +65,13 @@ export default function CreateFaq({
         form={form}
         initialValues={{ remember: true }}
         onFinish={(values) => {
-          console.log(form.getFieldsValue());
+          //console.log(form.getFieldsValue());
         }}
         onChange={(e) => {
-          console.log(form.getFieldsValue());
+          //console.log(form.getFieldsValue());
         }}
         onFinishFailed={(errorInfo) => {
-          console.log("Failed:", errorInfo);
+          //console.log("Failed:", errorInfo);
         }}
         autoComplete="off"
       >

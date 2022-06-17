@@ -4,6 +4,8 @@
   "private": true,
   "dependencies": {
     "@ckeditor/ckeditor5-build-classic": "^34.0.0",
+    "@ckeditor/ckeditor5-build-decoupled-document": "^34.1.0",
+    "@ckeditor/ckeditor5-editor-decoupled": "^34.1.0",
     "@ckeditor/ckeditor5-react": "^5.0.1",
     "@reduxjs/toolkit": "^1.8.2",
     "@testing-library/jest-dom": "^5.16.4",

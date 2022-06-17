@@ -28,7 +28,6 @@ export default function UpdateFaq({ data, isEdit, setIsEdit, setData }) {
     });
     // eslint-disable-next-line
   }, [data]);
-  console.log("124124", form.getFieldValue());
   return (
     <Modal
       title="Güncelle Sıkça Sorulan Soru"
@@ -42,10 +41,10 @@ export default function UpdateFaq({ data, isEdit, setIsEdit, setData }) {
         form={form}
         initialValues={{ remember: true }}
         onFinish={(values) => {
-          console.log(form.getFieldsValue());
+          //console.log(form.getFieldsValue());
         }}
         onFinishFailed={(errorInfo) => {
-          console.log("Failed:", errorInfo);
+          //console.log("Failed:", errorInfo);
         }}
         autoComplete="off"
       >
