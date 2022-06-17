@@ -349,7 +349,6 @@
         "bearerAuth": {
             "type": "apiKey",
             "name": "Authorization",
-            "scheme": "bearer",
             "in": "header"
         },
         "petstore_auth": {

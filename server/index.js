@@ -87,9 +87,6 @@ app.get("/api/image/user", (req, res) => {
 //--------------------------------------------------------------------------------
 app.post("/api/login", (req, res) => {
   const { userName, password } = req.body;
-  console.log(userName, password);
-
-  // user getir
   const getUser = `SELECT * FROM user WHERE userName = ? AND password = ?;`;
   db.query(getUser, [userName, password], (err, resUser) => {
     if (err) {
