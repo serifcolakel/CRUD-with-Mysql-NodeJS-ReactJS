@@ -40,13 +40,21 @@ const upload = multer({
 const options = {
   swaggerDefinition: opt,
   apis: ["./routes/api/*.js"],
-  authorizations: {
-    bearerAuth: {
-      type: "http",
-      scheme: "bearer",
-      bearerFormat: "JWT",
+  components: {
+    securitySchemes: {
+      jwt: {
+        type: "http",
+        scheme: "bearer",
+        in: "header",
+        bearerFormat: "JWT",
+      },
     },
   },
+  security: [
+    {
+      jwt: [],
+    },
+  ],
 };
 
 app.post("/api/image/user", validateToken, (req, res) => {
@@ -139,7 +147,26 @@ app.use("/api", require("./routes/api/users"));
 app.use("/api", require("./routes/api/blogs"));
 app.use("/api", require("./routes/api/faqs"));
 const specs = swaggerJsDoc(options);
-app.use("/", swaggerUi.serve, swaggerUi.setup(specs));
+app.use(
+  "/",
+  swaggerUi.serve,
+  swaggerUi.setup(specs, {
+    swaggerOptions: {
+      authAction: {
+        JWT: {
+          name: "JWT",
+          schema: {
+            type: "apiKey",
+            in: "header",
+            name: "Authorization",
+            description: "",
+          },
+          value: "Bearer <JWT>",
+        },
+      },
+    },
+  })
+);
 app.listen(5000, () => {
   console.log("Server started on port 5000");
 });

@@ -26,7 +26,7 @@ export default function Layout() {
           maxWidth: "1240px",
           margin: "0 auto 80px auto",
           backgroundColor: "#2855AC",
-          overflow: "scroll",
+          overflow: window.innerWidth > 600 ? "hidden" : "scroll",
           color: "white",
         }}
       >

@@ -346,10 +346,10 @@
         }
     },
     "securityDefinitions": {
-        "api_key": {
+        "bearerAuth": {
             "type": "apiKey",
-            "name": "token",
-            "description": "Your after login token",
+            "name": "Authorization",
+            "scheme": "bearer",
             "in": "header"
         },
         "petstore_auth": {
@@ -362,6 +362,11 @@
             }
         }
     },
+    "security": [
+        {
+            "bearerAuth": []
+        }
+    ],
     "externalDocs": {
         "description": "Find out more about Swagger Examples JSON",
         "url": "https://petstore.swagger.io/v2/swagger.json"
